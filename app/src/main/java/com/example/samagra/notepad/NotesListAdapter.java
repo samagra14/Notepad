@@ -15,10 +15,13 @@ import android.widget.TextView;
 
 public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.NotesViewHolder> {
 
+
+    final private ListItemClickListener mClickListener;
     private Cursor mCursor;
 
-    public NotesListAdapter(Cursor cursor) {
+    public NotesListAdapter(Cursor cursor, ListItemClickListener listener) {
         this.mCursor = cursor;
+        this.mClickListener = listener;
     }
 
     @Override
@@ -47,6 +50,8 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
         String noteContent = mCursor.getString(mCursor.getColumnIndex(NoteListContract.NoteListEntry.COLUMN_NOTES_TEXT));
         holder.titleTextView.setText(noteTitle);
         holder.noteTextView.setText(noteContent);
+        long id =(long) mCursor.getLong(mCursor.getColumnIndex(NoteListContract.NoteListEntry._ID));
+        holder.itemView.setTag(id);
 
     }
 
@@ -56,7 +61,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
         return mCursor.getCount();
     }
 
-    public class NotesViewHolder extends RecyclerView.ViewHolder{
+    public class NotesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView titleTextView;
         TextView noteTextView;
@@ -65,8 +70,28 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
             super(itemView);
             titleTextView =(TextView) itemView.findViewById(R.id.tv_notes_title);
             noteTextView = (TextView) itemView.findViewById(R.id.tv_notes_content);
+            itemView.setOnClickListener(this);
 
 
         }
+
+        @Override
+        public void onClick(View view) {
+            int clickedPosition = getAdapterPosition();
+            long id = (long) view.getTag();
+            mClickListener.onListItemClick(clickedPosition,id);
+        }
+    }
+    void swapCursor(Cursor cursor){
+        if(cursor==null)
+            return;
+        mCursor = cursor;
+        if(mCursor!=null)
+            this.notifyDataSetChanged();
+
+    }
+
+    public interface ListItemClickListener{
+        void onListItemClick(int clickedItemIndex, long id);
     }
 }

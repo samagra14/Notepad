@@ -21,6 +21,8 @@ public class NotesContentFragment extends Fragment {
     private EditText titleEditText,contentEditText;
     private Button saveBtn;
     private SQLiteDatabase mDb;
+    private long mId=-1;
+    String title ="",text="";
 
     public NotesContentFragment() {
     }
@@ -31,6 +33,8 @@ public class NotesContentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_notes_content,container,false);
         titleEditText =(EditText) view.findViewById(R.id.et_notes_title);
         contentEditText = (EditText) view.findViewById(R.id.et_notes_content);
+        titleEditText.setText(title);
+        contentEditText.setText(text);
         saveBtn = view.findViewById(R.id.save_btn);
         NotesDbHelper dbHelper = new NotesDbHelper(getActivity());
         mDb = dbHelper.getWritableDatabase();
@@ -40,7 +44,10 @@ public class NotesContentFragment extends Fragment {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(mId==-1)
                 addToNoteList();
+                else
+                    updateNote();
                 fragmentManager.beginTransaction().replace(container.getId(),notesListFragment).commit();
             }
         });
@@ -55,6 +62,8 @@ public class NotesContentFragment extends Fragment {
         if(titleEditText.getText().toString().length()==0||contentEditText.getText().toString().length()==0)
             return;
         addNote(titleEditText.getText().toString(),contentEditText.getText().toString());
+        titleEditText.getText().clear();
+        contentEditText.getText().clear();
 
     }
 
@@ -65,5 +74,24 @@ public class NotesContentFragment extends Fragment {
         values.put(NoteListContract.NoteListEntry.COLUMN_NOTES_TEXT,text);
         values.put(NoteListContract.NoteListEntry.COLUMN_NOTES_TITLE,title);
         return mDb.insert(NoteListContract.NoteListEntry.TABLE_NAME,null, values);
+    }
+    public void setId(long id){
+        this.mId = id;
+    }
+
+    public void setFragment(String title, String text){
+        this.title=title;
+        this.text = text;
+    }
+
+    private void updateNote(){
+        if(titleEditText.getText().toString().length()==0|contentEditText.getText().toString().length()==0)
+            return;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(NoteListContract.NoteListEntry.COLUMN_NOTES_TITLE,titleEditText.getText().toString());
+        contentValues.put(NoteListContract.NoteListEntry.COLUMN_NOTES_TEXT,contentEditText.getText().toString());
+        mDb.update(NoteListContract.NoteListEntry.TABLE_NAME, contentValues, NoteListContract.NoteListEntry._ID+" = "+mId,null);
+        titleEditText.getText().clear();
+        contentEditText.getText().clear();
     }
 }
