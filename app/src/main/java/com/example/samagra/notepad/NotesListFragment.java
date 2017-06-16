@@ -21,6 +21,13 @@ import android.widget.Toast;
 public class NotesListFragment extends Fragment implements NotesListAdapter.ListItemClickListener {
     private RecyclerView mRecyclerView;
     private NotesListAdapter mAdapter;
+    SessionManager session;
+
+    private String user;
+
+    public void setUser(String user) {
+        this.user = user;
+    }
 
     private SQLiteDatabase mDb;
     public NotesListFragment() {
@@ -38,6 +45,7 @@ public class NotesListFragment extends Fragment implements NotesListAdapter.List
          */
         NotesDbHelper dbHelper = new NotesDbHelper(getActivity());
         mDb = dbHelper.getWritableDatabase();
+        user = session.getUserDetails();
         Cursor cursor = getNotes();
 
         mAdapter = new NotesListAdapter(cursor,this);
@@ -66,10 +74,25 @@ public class NotesListFragment extends Fragment implements NotesListAdapter.List
 
         return view;
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        session = new SessionManager(getActivity());
+        /**
+         * Call this function whenever you want to check user login
+         * This will redirect user to LoginActivity is he is not
+         * logged in
+         * */
+        session.checkLogin();
+        user = session.getUserDetails();
+
+    }
+
     private Cursor getNotes(){
         return mDb.query(NoteListContract.NoteListEntry.TABLE_NAME,
                 null,
-                null,
+                NoteListContract.NoteListEntry.COLUMN_USER_NAME + " = '"+user+"'",
                 null,
                 null,
                 null,
@@ -96,6 +119,7 @@ public class NotesListFragment extends Fragment implements NotesListAdapter.List
         String title = tempCursor.getString(tempCursor.getColumnIndex(NoteListContract.NoteListEntry.COLUMN_NOTES_TITLE));
         String text = tempCursor.getString(tempCursor.getColumnIndex(NoteListContract.NoteListEntry.COLUMN_NOTES_TEXT));
         fragment.setId(id);
+        fragment.setUser(user);
         fragment.setFragment(title,text);
         FragmentManager tempManager = getActivity().getSupportFragmentManager();
         tempManager.beginTransaction().replace(R.id.fragment_container,fragment).commit();

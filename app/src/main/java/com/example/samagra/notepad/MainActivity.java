@@ -10,17 +10,37 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+    private SessionManager session;
+    String userName;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Session class instance
+        session = new SessionManager(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         NotesListFragment notesListFragment = new NotesListFragment();
          final NotesContentFragment notesContentFragment = new NotesContentFragment();
          final FragmentManager fragmentManager = getSupportFragmentManager();
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        /**
+         * Call this function whenever you want to check user login
+         * This will redirect user to LoginActivity is he is not
+         * logged in
+         * */
+        session.checkLogin();
+        userName = session.getUserDetails();
+        notesListFragment.setUser(userName);
+        notesContentFragment.setUser(userName);
+
+
+
+
         fragmentManager.beginTransaction()
                 .add(R.id.fragment_container,notesListFragment)
                 .commit();
@@ -28,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            session.logoutUser();
+            finish();
             return true;
         }
 

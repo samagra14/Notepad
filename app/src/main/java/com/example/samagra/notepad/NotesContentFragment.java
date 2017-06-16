@@ -22,6 +22,12 @@ public class NotesContentFragment extends Fragment {
     private Button saveBtn;
     private SQLiteDatabase mDb;
     private long mId=-1;
+    String user;
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
     String title ="",text="";
 
     public NotesContentFragment() {
@@ -40,6 +46,7 @@ public class NotesContentFragment extends Fragment {
         mDb = dbHelper.getWritableDatabase();
         final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         final NotesListFragment notesListFragment = new NotesListFragment();
+        notesListFragment.setUser(user);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +80,7 @@ public class NotesContentFragment extends Fragment {
         ContentValues values = new ContentValues();
         values.put(NoteListContract.NoteListEntry.COLUMN_NOTES_TEXT,text);
         values.put(NoteListContract.NoteListEntry.COLUMN_NOTES_TITLE,title);
+        values.put(NoteListContract.NoteListEntry.COLUMN_USER_NAME,user);
         return mDb.insert(NoteListContract.NoteListEntry.TABLE_NAME,null, values);
     }
     public void setId(long id){
