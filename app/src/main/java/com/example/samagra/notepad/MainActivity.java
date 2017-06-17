@@ -12,6 +12,20 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
     private SessionManager session;
     String userName;
+    FloatingActionButton fab;
+
+
+    @Override
+    public void onBackPressed() {
+        NotesListFragment notesListFragment = new NotesListFragment();
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        notesListFragment.setUser(userName);
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container,notesListFragment)
+                .commit();
+        fab.setVisibility(View.VISIBLE);
+    }
+
 
 
     @Override
@@ -26,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         NotesListFragment notesListFragment = new NotesListFragment();
          final NotesContentFragment notesContentFragment = new NotesContentFragment();
          final FragmentManager fragmentManager = getSupportFragmentManager();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         /**
          * Call this function whenever you want to check user login
@@ -57,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 fragmentManager.beginTransaction()
                         .replace(R.id.fragment_container,notesContentFragment)
                         .commit();
+
+                fab.setVisibility(View.GONE);
             }
         });
     }

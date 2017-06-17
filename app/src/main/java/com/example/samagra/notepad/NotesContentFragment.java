@@ -37,6 +37,7 @@ public class NotesContentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notes_content,container,false);
+        getActivity().findViewById(R.id.fab).setVisibility(View.GONE);
         titleEditText =(EditText) view.findViewById(R.id.et_notes_title);
         contentEditText = (EditText) view.findViewById(R.id.et_notes_content);
         titleEditText.setText(title);
@@ -56,6 +57,7 @@ public class NotesContentFragment extends Fragment {
                 else
                     updateNote();
                 fragmentManager.beginTransaction().replace(container.getId(),notesListFragment).commit();
+                getActivity().findViewById(R.id.fab).setVisibility(View.VISIBLE);
             }
         });
 

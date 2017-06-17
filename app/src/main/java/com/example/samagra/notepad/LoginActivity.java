@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
-import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -121,7 +120,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             sessionManager.createLoginSession(textInputEditTextUserName.getText().toString().trim());
             emptyInputEditText();
-            Toast.makeText(this, "UserName "+ sessionManager.getUserDetails(), Toast.LENGTH_SHORT).show();
             startActivity(accountsIntent);
 
 
