@@ -11,6 +11,8 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
+import com.example.samagra.notepad.data.NotesDbHelper;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private SessionManager sessionManager;

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.samagra.notepad.data.NoteListContract;
+import com.example.samagra.notepad.data.NotesDbHelper;
 
 /**
  * Created by samagra on 15/6/17.

@@ -16,10 +16,9 @@ public class NoteListContract {
 
     }
 
-    public static final class UserEntry implements BaseColumns{
-        public static final String TABLE_NAME = "user";
-
-        public static final String COLUMN_USER_NAME = "user_name";
-        public static final String COLUMN_USER_PASSWORD = "user_password";
+    static final class UserEntry implements BaseColumns{
+        static final String TABLE_NAME = "user";
+        static final String COLUMN_USER_NAME = "user_name";
+        static final String COLUMN_USER_PASSWORD = "user_password";
     }
 }

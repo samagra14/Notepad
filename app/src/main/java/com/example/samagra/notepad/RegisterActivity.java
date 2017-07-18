@@ -11,6 +11,9 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
+import com.example.samagra.notepad.data.NotesDbHelper;
+import com.example.samagra.notepad.data.User;
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private NestedScrollView nestedScrollView;

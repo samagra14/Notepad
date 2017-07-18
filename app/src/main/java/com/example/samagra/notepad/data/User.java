@@ -1,4 +1,4 @@
-package com.example.samagra.notepad;
+package com.example.samagra.notepad.data;
 
 /**
  * Created by samagra on 16/6/17.
@@ -6,7 +6,7 @@ package com.example.samagra.notepad;
 
 public class User {
     private int id;
-    private String userName;
+    private  String userName;
     private String password;
 
     public int getId() {
