@@ -6,10 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.samagra.notepad.data.NoteListContract;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.samagra.notepad.NoteListContract.UserEntry.COLUMN_USER_PASSWORD;
+import static com.example.samagra.notepad.data.NoteListContract.UserEntry.COLUMN_USER_PASSWORD;
 
 /**
  * Created by samagra on 15/6/17.

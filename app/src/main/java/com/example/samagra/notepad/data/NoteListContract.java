@@ -1,4 +1,4 @@
-package com.example.samagra.notepad;
+package com.example.samagra.notepad.data;
 
 import android.provider.BaseColumns;
 

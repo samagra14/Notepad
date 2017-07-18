@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.samagra.notepad.data.NoteListContract;
+
 /**
  * Created by samagra on 15/6/17.
  */
